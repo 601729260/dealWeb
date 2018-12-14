@@ -26,12 +26,12 @@ def export(date):
 
  # SQL 查询语句
  sql = " select c.sub_unit_name as '门店',a.shop_id as '门店ID',b.BARCODE_1 as '条形码',ext.sku_name as '品名',a.qty as '库存' from t_gb_stock_"+date+" a          " \
-      " left join gb_share_item b on a.item_num_id=b.item_num_id                                                                                       " \
+      " left join gb_share_item b on a.item_num_id=b.item_num_id and b.is_deleted=0                                                                                      " \
       " left join gb_share_item_ext ext on a.item_num_id=ext.item_num_id                                                                               " \
       " left join gb_cort_sub_unit c on a.shop_id=c.SUB_UNIT_NUM_ID                                                                                    " \
       " where a.shop_id!=0 union all                                                                                                                   " \
       " select c.storage_name as '门店',a.storage_id as '门店ID',b.BARCODE_1 as '条形码',ext.sku_name as '品名',a.qty as '库存' from t_gb_stock_"+date+" a        " \
-      " left join gb_share_item b on a.item_num_id=b.item_num_id                                                                                       " \
+      " left join gb_share_item b on a.item_num_id=b.item_num_id and b.is_deleted=0                                                                                        " \
       " left join gb_share_item_ext ext on a.item_num_id=ext.item_num_id                                                                               " \
       " left join gb_storage c on a.storage_id=c.storage_num_id                                                                                        " \
       " where a.storage_id!=0                                                                                                                         " ;
@@ -56,6 +56,6 @@ def export(date):
  wb.save('/Users/wangguannan/Downloads/备份库存'+date+'.xlsx')
 
 if __name__=="__main__":
-    dates=["20181201","20181202","20181203","20181204","20181205"]
+    dates=["20181201"]
     for date in dates:
         export(date)
